@@ -41,7 +41,7 @@ public class ClientHandler implements Runnable {
                 else if (message.startsWith("TO:")) {
                     String[] words = message.split(":");
                     String nick = words[1];
-                    String msg = words[2];
+                    String msg = message.substring(4 + nick.length());
                     server.sendTo(this, nick, msg);
                 }
                 else {
