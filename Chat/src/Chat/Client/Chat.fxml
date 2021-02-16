@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="BOTTOM_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="600.0" prefWidth="420.0" style="-fx-background-color: f7e1e16f;"
+      xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="Chat.Client.ChatController">
+
+    <ListView fx:id="listView" onMouseClicked="#click" prefHeight="450.0" prefWidth="400.0"
+              style="-fx-border-color: f5bcbc6f;">
+        <VBox.margin>
+            <Insets/>
+        </VBox.margin>
+    </ListView>
+    <HBox prefHeight="80.0" prefWidth="420.0">
+
+        <TextField fx:id="input" onAction="#sendMessage" prefHeight="70.0" prefWidth="340.0"
+                   style="-fx-background-color: f2b1b16f;" translateX="5.0" translateY="5.0">
+            <font>
+                <Font name="System Italic" size="16.0"/>
+            </font>
+        </TextField>
+        <Button focusTraversable="false" mnemonicParsing="false" onAction="#sendMessage" prefHeight="30.0"
+                prefWidth="85.0" style="-fx-border-color: 0d0404f8; -fx-background-color: f5bcbcf8;" text="Send"
+                translateX="22.0" translateY="5.0"/>
+        <Button fx:id="delete" focusTraversable="false" mnemonicParsing="false" onAction="#clear" prefHeight="30.0"
+                prefWidth="85.0" style="-fx-border-color: 0d0404f8; -fx-background-color: f5bcbcf8;" text="Clear"
+                translateX="-32.0" translateY="45.0"/>
+
+    </HBox>
+
+</VBox>
+
