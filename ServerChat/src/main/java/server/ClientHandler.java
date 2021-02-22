@@ -6,6 +6,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import db.UsersDB;
+
 public class ClientHandler {
     private String name;
     private DataInputStream in;
@@ -38,18 +40,15 @@ public class ClientHandler {
     }
 
     private void doAuth() {
-        sendMessage("Please enter credentials. Sample [-auth login password]");
+        sendMessage("Please enter credentials: [-auth login password]");
         try {
-            /**
-             * -auth login password
-             * sample: -auth l1 p1
-             */
+
             while (true) {
                 String mayBeCredentials = in.readUTF();
                 if (mayBeCredentials.startsWith("-auth")) {
                     String[] credentials = mayBeCredentials.split("\\s");
-                    String mayBeNickname = chat.getAuthenticationService()
-                            .findNicknameByLoginAndPassword(credentials[1], credentials[2]);
+                    String mayBeNickname = chat.getAuthenticationService().
+                            findNicknameByLoginAndPassword(credentials[1], credentials[2]);
                     if (mayBeNickname != null) {
                         if (!chat.isNicknameOccupied(mayBeNickname)) {
                             sendMessage("[INFO] Auth OK");
@@ -64,6 +63,8 @@ public class ClientHandler {
                         }
                     } else {
                         sendMessage("[INFO] Wrong login or password.");
+                        sendMessage("Repeat credentials, if you want to take this nickname");
+                        UsersDB.createUser(credentials[1], credentials[2]);
                     }
                 }
             }
@@ -85,8 +86,8 @@ public class ClientHandler {
             try {
                 String message = in.readUTF();
                 if (message.startsWith("-exit")) {
-                    chat.unsubscribe(this);
                     chat.broadcastMessage(String.format("[%s] logged out", name));
+                    chat.unsubscribe(this);
                     break;
                 }
                 chat.broadcastMessage(String.format("[%s]: %s", name, message));

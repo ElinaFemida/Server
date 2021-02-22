@@ -6,4 +6,5 @@ public interface Chat {
     void subscribe(ClientHandler client);
     void unsubscribe(ClientHandler client);
     AuthenticationService getAuthenticationService();
+
 }
