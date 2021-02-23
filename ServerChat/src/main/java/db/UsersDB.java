@@ -4,9 +4,6 @@ import java.sql.*;
 
 public class UsersDB {
 
-    private static Connection connection;
-    private static Statement statement;
-    private static PreparedStatement getNicknameStatement;
     private static final String INSERT_USER = "insert into chatclients (NAME, PASSWORD) values (?, ?)";
     private static final String SELECT_USER_BY_NAME_AND_PASSWORD = "select * from chatclients where NAME = ? and PASSWORD = ?";
 

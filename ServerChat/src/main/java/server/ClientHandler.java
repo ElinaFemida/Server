@@ -1,12 +1,11 @@
 package server;
 
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 
 import db.UsersDB;
+import test.Read;
 
 public class ClientHandler {
     private String name;
@@ -53,10 +52,10 @@ public class ClientHandler {
                         if (!chat.isNicknameOccupied(mayBeNickname)) {
                             sendMessage("[INFO] Auth OK");
                             name = mayBeNickname;
-
                             chat.broadcastMessage(String.format("[%s] logged in", name));
                             chat.subscribe(this);
-
+                            ChatHistory.getInstance(new File(setFileName(name)));
+                            System.out.println("!");
                             return;
                         } else {
                             sendMessage("[INFO] Current user is already logged in.");
@@ -65,12 +64,19 @@ public class ClientHandler {
                         sendMessage("[INFO] Wrong login or password.");
                         sendMessage("Repeat credentials, if you want to take this nickname");
                         UsersDB.createUser(credentials[1], credentials[2]);
+                        name = credentials[1];
+                        ChatHistory.getInstance(new File(setFileName(name)));
+                        System.out.println("!");
                     }
                 }
-            }
+                }
         } catch (Exception e) {
             throw new RuntimeException("SWW", e);
         }
+    }
+
+    private static String setFileName(String nick) {
+        return "D://Java//GB//HW//ServerChat//history_" + nick + ".txt";
     }
 
     public void sendMessage(String message) {
@@ -88,9 +94,11 @@ public class ClientHandler {
                 if (message.startsWith("-exit")) {
                     chat.broadcastMessage(String.format("[%s] logged out", name));
                     chat.unsubscribe(this);
+                    ChatHistory.writeToFile(name +": " +  message);
                     break;
                 }
                 chat.broadcastMessage(String.format("[%s]: %s", name, message));
+                ChatHistory.writeToFile(name +": " + message);
             } catch (IOException e) {
                 throw new RuntimeException("SWW", e);
             }
