@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException, BrokenBarrierException {
         Semaphore semaphore = new Semaphore(CARS_COUNT / 2, true);
-        CountDownLatch cdl = new CountDownLatch(CARS_COUNT);
+        CountDownLatch cdl = new CountDownLatch(CARS_COUNT); //CountDownLatch использовала, чтобы попробовать. CyclicBarrier понравился больше
         CyclicBarrier cb = new CyclicBarrier(CARS_COUNT  + MAIN_THREAD );
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Подготовка!!!");
 

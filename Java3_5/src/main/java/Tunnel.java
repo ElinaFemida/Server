@@ -1,12 +1,15 @@
+
+import java.text.SimpleDateFormat;
 import java.util.concurrent.Semaphore;
 
 public class Tunnel extends Stage {
     private Semaphore semaphore;
 
+
     public Tunnel(Semaphore semaphore) {
         this.length = 80;
         this.description = "Тоннель " + length + " метров";
-        this.semaphore = this.semaphore;
+        this.semaphore = semaphore;
 
     }
 
@@ -31,4 +34,5 @@ public class Tunnel extends Stage {
         e.printStackTrace();
     }
 }
+
 }
