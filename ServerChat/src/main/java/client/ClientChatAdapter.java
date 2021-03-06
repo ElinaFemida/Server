@@ -1,7 +1,5 @@
 package client;
 
-
-
 import gui.ChatFrame;
 
 import java.util.function.Consumer;

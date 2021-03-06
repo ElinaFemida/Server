@@ -3,6 +3,9 @@ package server;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import db.UsersDB;
 
@@ -13,6 +16,16 @@ public class ClientHandler {
     private DataOutputStream out;
     private Socket socket;
     private Chat chat;
+    static Logger LOGGERHANDLER;
+    static {
+        try{
+            LogManager.getLogManager().readConfiguration();
+            LOGGERHANDLER = Logger.getLogger(ClientHandler.class.getName());
+        }catch (Exception ignore){
+            ignore.printStackTrace();
+        }
+    }
+
 
     public ClientHandler(Socket socket, Chat chat) {
         this.socket = socket;
@@ -40,6 +53,7 @@ public class ClientHandler {
 
     private void doAuth() {
         sendMessage("Please enter credentials: [-auth login password]");
+        LOGGERHANDLER.log(Level.INFO,"Client is trying to log in");
         try {
 
             while (true) {
@@ -59,6 +73,7 @@ public class ClientHandler {
                             return;
                         } else {
                             sendMessage("[INFO] Current user is already logged in.");
+                            LOGGERHANDLER.log(Level.WARNING, "Current user is already logged in.");
                         }
                     } else {
                         sendMessage("[INFO] Wrong login or password.");
@@ -102,6 +117,7 @@ public class ClientHandler {
             } catch (IOException e) {
                 throw new RuntimeException("SWW", e);
             }
+
         }
     }
 }
